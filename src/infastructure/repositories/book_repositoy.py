@@ -53,7 +53,7 @@ class BookRepository:
             if book_exists:
                 return None
             # Create a book object
-            book_object = BookDatabase(**book.dict())
+            book_object = BookDatabase(**book.model_dump())
 
             # Add the book to the session
             session.add(book_object)
@@ -64,7 +64,7 @@ class BookRepository:
 
     def update_book(self, user, isbn, book):
         try:
-            book = book.dict()
+            book_copy = book.model_dump()
             with Session(self.engine) as session:
 
                 # Select the book from the database from the isbn field.
@@ -78,11 +78,11 @@ class BookRepository:
                     return None
 
                 # Update the book details
-                previous_book_details.Title = book["Title"]
-                previous_book_details.Authors = book["Authors"]
-                previous_book_details.Publication_Date = book["Publication_Date"]
-                previous_book_details.ISBN = book["ISBN"]
-                previous_book_details.Description = book["Description"]
+                previous_book_details.Title = book_copy["Title"]
+                previous_book_details.Authors = book_copy["Authors"]
+                previous_book_details.Publication_Date = book_copy["Publication_Date"]
+                previous_book_details.ISBN = book_copy["ISBN"]
+                previous_book_details.Description = book_copy["Description"]
                 previous_book_details.User = user
 
                 # Add the book to the session

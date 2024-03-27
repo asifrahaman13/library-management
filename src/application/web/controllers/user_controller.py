@@ -8,7 +8,7 @@ from src.internal.use_cases.user_service import UserService
 from src.internal.interfaces.user_interface import UserInterface
 from src.infastructure.repositories.user_repository import UserRepository
 from src.infastructure.exceptions.exceptions import HttpRequestErrors
-from src.internal.helper.helper import get_current_user
+from src.internal.helper.helper import get_current_user, is_valid_password
 
 # Initialize the APIRouter configuration.
 router = APIRouter()
@@ -29,13 +29,20 @@ user_service = UserService(user_repository=user_repository)
 async def signup(user: UserBase, user_interface: UserInterface = Depends(user_service)):
     # Convert the user data to a dictionary
     user_data = user.model_dump()
+    if user_data["username"] is None or user_data["password"] is None:
+        return HttpRequestErrors.unpocessable_entity()
+
+    # Check if the password is valid
+    if not is_valid_password(user_data["password"]):
+        return HttpRequestErrors.unpocessable_entity()
+
     try:
         # Call the create_user method from the user_interface to insert the data into the database.
         user_interface.create_user(user_data)
         return {"message": "User created successfully"}
     except Exception as e:
         print(e)
-        return {"message": "User creation failed"}
+        return HttpRequestErrors.bad_request()
 
 
 @router.post("/login")
@@ -74,7 +81,7 @@ async def all_data(
         print(access_token)
 
         if access_token is not None:
-           
+
             # Return the access token.
             return {"access_token": access_token, "token_type": "bearer"}
     # In case of an exception, return an HTTP 401 error
