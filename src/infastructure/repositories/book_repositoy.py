@@ -48,6 +48,10 @@ class BookRepository:
     def create_book(self, book):
 
         with Session(self.engine) as session:
+            stetement = select(BookDatabase).where(BookDatabase.ISBN == book.ISBN)
+            book_exists = session.exec(stetement).first()
+            if book_exists:
+                return None
             # Create a book object
             book_object = BookDatabase(**book.dict())
 

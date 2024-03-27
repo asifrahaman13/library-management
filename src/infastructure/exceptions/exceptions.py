@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status
 
 
-class HttePrequestErrors:
+class HttpRequestErrors:
 
     def bad_request():
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid input")
@@ -17,3 +17,6 @@ class HttePrequestErrors:
 
     def internal_server_error():
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Server error")
+    
+    def not_valid():
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Not valid operation please check the input data")

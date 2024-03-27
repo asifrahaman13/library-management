@@ -7,7 +7,7 @@ from src.internal.interfaces.auth_interface import AuthInterface
 from src.internal.use_cases.user_service import UserService
 from src.internal.interfaces.user_interface import UserInterface
 from src.infastructure.repositories.user_repository import UserRepository
-from src.infastructure.exceptions.exceptions import HttePrequestErrors
+from src.infastructure.exceptions.exceptions import HttpRequestErrors
 from src.internal.helper.helper import get_current_user
 
 # Initialize the APIRouter configuration.
@@ -59,21 +59,24 @@ async def all_data(
     user_exists = user_interface.check_if_user_exists(username)
 
     if not user_exists:
-        return HttePrequestErrors.detail_not_found()
+        return HttpRequestErrors.detail_not_found()
 
     # Check if password matches
     password_matches = user_interface.check_if_password_matches(username, password)
 
     if not password_matches:
-        return HttePrequestErrors.unauthorized()
+        return HttpRequestErrors.unauthorized()
 
     try:
         # Generate an access token
 
         access_token = auth_interface.create_access_token(data={"sub": username})
         print(access_token)
-        # Return the access token.
-        return {"access_token": access_token, "token_type": "bearer"}
+
+        if access_token is not None:
+           
+            # Return the access token.
+            return {"access_token": access_token, "token_type": "bearer"}
     # In case of an exception, return an HTTP 401 error
     except Exception as e:
         raise HTTPException(
@@ -93,5 +96,5 @@ async def get_protected_data(
     print(user)
 
     if user is None:
-        return HttePrequestErrors.unauthorized()
+        return HttpRequestErrors.unauthorized()
     return {"message": True, "user": user}

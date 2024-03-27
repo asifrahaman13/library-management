@@ -10,6 +10,7 @@ from src.internal.helper.helper import get_current_user
 from src.internal.interfaces.auth_interface import AuthInterface
 from src.infastructure.repositories.auth_repository import AuthRepository
 from src.internal.use_cases.auth_service import AuthenticationService
+from src.infastructure.exceptions.exceptions import HttpRequestErrors
 
 book_router = APIRouter()
 
@@ -82,7 +83,16 @@ def create_book(
 
     # Set the user from the token to the book object
     book.User = user
-    return book_interface.create_book(book)
+    book_cretaed= book_interface.create_book(book)
+
+    # Check if the book is created. If yes return the book.
+    if book_cretaed is not None:
+        json_compatible_item_data = jsonable_encoder(book_cretaed)
+        return JSONResponse(content=json_compatible_item_data)
+    
+    return HttpRequestErrors.not_valid()
+
+
 
 
 @book_router.put("/books/{isbn}")

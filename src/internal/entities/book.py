@@ -16,7 +16,8 @@ class BookDatabase(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     User: str
     Title: str
-    Authors: str
+    Authors: str 
     Publication_Date: Optional[str] = None
-    ISBN: str
+    ISBN: str = Field(index=False, sa_column_kwargs={"unique": True})
     Description: Optional[str] = None
+
