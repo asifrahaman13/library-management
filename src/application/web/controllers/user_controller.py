@@ -28,6 +28,8 @@ user_service = UserService(user_repository=user_repository)
 @router.post("/signup")
 async def signup(user: UserBase, user_interface: UserInterface = Depends(user_service)):
     # Convert the user data to a dictionary
+
+    print(user.model_dump())
     user_data = user.model_dump()
     if user_data["username"] is None or user_data["password"] is None:
         return HttpRequestErrors.unpocessable_entity()
@@ -64,7 +66,8 @@ async def all_data(
 
     # Check if user exists
     user_exists = user_interface.check_if_user_exists(username)
-
+    
+    # If the user does not exist, return an HTTP 404 error
     if not user_exists:
         return HttpRequestErrors.detail_not_found()
 
@@ -78,8 +81,8 @@ async def all_data(
         # Generate an access token
 
         access_token = auth_interface.create_access_token(data={"sub": username})
-        print(access_token)
-
+        
+        # If the access token is not None then return the access token.
         if access_token is not None:
 
             # Return the access token.
@@ -101,7 +104,8 @@ async def get_protected_data(
     print(current_user)
     user = auth_interface.get_current_user(current_user)
     print(user)
-
+   
+    # If the user is None, return an HTTP 401 error
     if user is None:
         return HttpRequestErrors.unauthorized()
     return {"message": True, "user": user}

@@ -1,35 +1,5 @@
 # Evva Backend
 
-## Project Folder Structure
-
-```
-.
-├── config
-│   ├── config.py
-│   └── __pycache__
-│       └── config.cpython-310.pyc
-├── Dockerfile
-├── README.md
-├── requirements.txt
-├── src
-│   ├── application
-│   │   ├── cli
-│   │   └── web
-│   ├── domain
-│   │   ├── entities
-│   │   ├── interfaces
-│   │   └── use_cases
-│   ├── infastructure
-│   │   ├── exceptions
-│   │   ├── repositories
-│   │   └── services
-│   ├── main.py
-│   └── __pycache__
-│       └── main.cpython-310.pyc
-└── tests
-    └── test.py
-```
-
 ## How to run the code
 
 First clone the repository.
@@ -73,6 +43,11 @@ Run the backend in port 8000
 ```bash
 uvicorn src.main:app --reload
 ```
+
+# Link to the documentation for the APIs:
+
+https://docs.google.com/document/d/12-ozqYCtt2LpQUaTKo49m8-zx0tKBzRB5VM0c-0-TqY/edit?usp=sharing
+
 
 # Testing
 
