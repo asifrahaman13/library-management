@@ -37,9 +37,9 @@ def get_all_books(
     # Check if user is None
     if user is None:
         raise HTTPException(status_code=401, detail="Unauthorized")
-    
+
     # Call the interface function to get all books
-    all_books= book_interface.get_all_books(user)
+    all_books = book_interface.get_all_books(user)
 
     # Check if the all_books is not None. If yes return the all_books.
     if all_books is not None:
@@ -55,12 +55,12 @@ def get_book_by_id(
     book_interface: BookInterface = Depends(book_service),
 ):
     user = auth_interface.get_current_user(current_user)
-    
+
     # Check if user is None
     if user is None:
         raise HTTPException(status_code=401, detail="Unauthorized")
 
-    book= book_interface.get_book_by_id(isbn, user)
+    book = book_interface.get_book_by_id(isbn, user)
 
     # Check if the book is not None. If yes return the book.
     if book is not None:
@@ -76,23 +76,21 @@ def create_book(
     auth_interface: AuthInterface = Depends(auth_service),
 ):
     user = auth_interface.get_current_user(current_user)
-    
+
     # Check if user is None
     if user is None:
         raise HTTPException(status_code=401, detail="Unauthorized")
 
     # Set the user from the token to the book object
     book.User = user
-    book_cretaed= book_interface.create_book(book)
+    book_cretaed = book_interface.create_book(book)
 
     # Check if the book is created. If yes return the book.
     if book_cretaed is not None:
         json_compatible_item_data = jsonable_encoder(book_cretaed)
         return JSONResponse(content=json_compatible_item_data)
-    
+
     return HttpRequestErrors.not_valid()
-
-
 
 
 @book_router.put("/books/{isbn}")
@@ -107,15 +105,14 @@ def update_book(
 
     if user is None:
         raise HTTPException(status_code=401, detail="Unauthorized")
-    
+
     # Call the interface function to update the book
-    response= book_interface.update_book(user, isbn, book)
+    response = book_interface.update_book(user, isbn, book)
 
     # Check if the response is not None. Otherwise return the response.
-    if response is not None: 
+    if response is not None:
         json_compatible_item_data = jsonable_encoder(response)
         return JSONResponse(content=json_compatible_item_data)
-
 
 
 @book_router.delete("/books/{isbn}")
@@ -126,14 +123,14 @@ def delete_book(
     auth_interface: AuthInterface = Depends(auth_service),
 ):
     user = auth_interface.get_current_user(current_user)
-    
+
     # Check if user is None
     if user is None:
         raise HTTPException(status_code=401, detail="Unauthorized")
-    
+
     # Call the interface function to delete the book
-    deleted_book= book_interface.delete_book(user, isbn)
-    
+    deleted_book = book_interface.delete_book(user, isbn)
+
     # Check if the book is deleted. If yes return the deleted book.
     if deleted_book is not None:
         json_compatible_item_data = jsonable_encoder(deleted_book)
