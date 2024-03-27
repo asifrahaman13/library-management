@@ -33,3 +33,8 @@ class HttpRequestErrors:
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail="Not valid operation please check the input data",
         )
+    
+    def unpocessable_entity():
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Unprocessable entity"
+        )

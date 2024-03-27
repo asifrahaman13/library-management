@@ -74,3 +74,13 @@ Run the backend in port 8000
 uvicorn src.main:app --reload
 ```
 
+# Testing
+
+Simple Pytest scripts are written for sample unit and integration testing. Follows the official fast api documentation:
+https://fastapi.tiangolo.com/tutorial/testing/
+
+To test the application use the following script: 
+
+```bash
+python3 -m pytest
+```
