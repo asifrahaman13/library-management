@@ -1,5 +1,5 @@
 from sqlmodel import Session, SQLModel, create_engine, select
-from src.internal.entities.user import  UserDatabase
+from src.internal.entities.user import UserDatabase
 from config.config import sql_db_path
 
 
@@ -43,9 +43,7 @@ class UserRepository:
             with Session(self.engine) as session:
 
                 # Select the user from the database from the username field.
-                statement = select(UserDatabase).where(
-                    UserDatabase.username == username
-                )
+                statement = select(UserDatabase).where(UserDatabase.username == username)
 
                 # Execute the statement and get the first result
                 results = session.exec(statement).first()
@@ -64,9 +62,7 @@ class UserRepository:
             # Create a session
             with Session(self.engine) as session:
                 # Select the user from the database from the username field.
-                statement = select(UserDatabase).where(
-                    UserDatabase.username == username
-                )
+                statement = select(UserDatabase).where(UserDatabase.username == username)
 
                 # Execute the statement and get the first result
                 results = session.exec(statement).first()

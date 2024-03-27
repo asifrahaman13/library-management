@@ -11,9 +11,9 @@ class UserService:
 
     def create_user(self, user_data: dict):
         return self.user_repository.create_user(user_data)
-    
+
     def check_if_user_exists(self, username):
         return self.user_repository.check_if_user_exists(username)
-    
+
     def check_if_password_matches(self, username, password):
         return self.user_repository.check_if_password_matches(username, password)

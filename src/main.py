@@ -2,6 +2,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.application.web.controllers import user_controller
+from src.application.web.controllers import book_controller
 from fastapi.responses import JSONResponse
 from src.infastructure.middleware.logging_middleware import log_middleware
 
@@ -23,6 +24,7 @@ app.add_middleware(
 
 # Include the router from the user_controller.
 app.include_router(user_controller.router, prefix="/auth", tags=["users"])
+app.include_router(book_controller.book_router, prefix="/api", tags=["books"])
 
 # Include the middleware.
 app.add_middleware(BaseHTTPMiddleware, dispatch=log_middleware)

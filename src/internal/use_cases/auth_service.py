@@ -16,7 +16,6 @@ class AuthenticationService:
 
     def get_current_user(self, token: str):
         return self.auth_repository.get_current_user(token)
-    
-    
+
     def user_info(self, access_token: str):
         return self.auth_repository.user_info(access_token)

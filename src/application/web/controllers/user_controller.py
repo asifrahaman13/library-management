@@ -8,21 +8,21 @@ from src.internal.use_cases.user_service import UserService
 from src.internal.interfaces.user_interface import UserInterface
 from src.infastructure.repositories.user_repository import UserRepository
 from src.infastructure.exceptions.exceptions import HttePrequestErrors
+from src.internal.helper.helper import get_current_user
 
-
+# Initialize the APIRouter configuration.
 router = APIRouter()
+
+# Initialize the OAuth2PasswordBearer configuration.
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
+# Call the AuthRepository class to create an instance of the class.
 auth_repository = AuthRepository()
 auth_service = AuthenticationService(auth_repository)
 
-
+# Call the UserRepository class to create an instance of the class.
 user_repository = UserRepository()
 user_service = UserService(user_repository=user_repository)
-
-
-def get_current_user(token: str = Depends(oauth2_scheme)):
-    return token
 
 
 @router.post("/signup")
@@ -44,7 +44,7 @@ async def all_data(
     auth_interface: AuthInterface = Depends(auth_service),
     user_interface: UserInterface = Depends(user_service),
 ):
-    
+
     # Perform some assertions and checks
     assert user is not None, "User data is required"
     user_data = user.model_dump()
@@ -69,10 +69,8 @@ async def all_data(
 
     try:
         # Generate an access token
- 
-        access_token = auth_interface.create_access_token(
-            data={"sub": username}
-        )
+
+        access_token = auth_interface.create_access_token(data={"sub": username})
         print(access_token)
         # Return the access token.
         return {"access_token": access_token, "token_type": "bearer"}
@@ -90,8 +88,10 @@ async def get_protected_data(
     current_user: str = Depends(get_current_user),
     auth_interface: AuthInterface = Depends(auth_service),
 ):
+    print(current_user)
     user = auth_interface.get_current_user(current_user)
+    print(user)
 
-    if user == False:
+    if user is None:
         return HttePrequestErrors.unauthorized()
     return {"message": True, "user": user}

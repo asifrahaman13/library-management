@@ -18,4 +18,3 @@ class AuthInterface(ABC):
     @abstractmethod
     def user_info(self, access_token: str):
         pass
-   

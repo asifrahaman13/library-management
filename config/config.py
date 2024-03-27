@@ -10,7 +10,7 @@ assert "SECRET_KEY" in os.environ, "SECRET_KEY"
 
 # Get the value of SQL_DB_PATH
 sql_db_path = os.getenv("SQL_DB_PATH")
-secret_key=os.getenv("SECRET_KEY")
+secret_key = os.getenv("SECRET_KEY")
 
 # Check if the SQL_DB_PATH value is not empty
 assert sql_db_path, "SQL_DB_PATH environment variable is empty"
