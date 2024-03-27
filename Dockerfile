@@ -1,7 +1,7 @@
 FROM python:3.10-slim
 
 # Install PostgreSQL development files
-RUN apt-get update && apt-get install -y postgresql-server-dev-all
+RUN apt-get update
 
 WORKDIR /app 
 

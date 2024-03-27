@@ -43,6 +43,21 @@ Run the backend in port 8000
 ```bash
 uvicorn src.main:app --reload
 ```
+# Want to run in docker?
+In case you are facing any issue and want to run the application using docker.
+
+First build the image
+
+```bash
+docker -t build backend:latest .
+```
+
+Next you can simply run the application.
+
+```bash 
+docker run -d -p  8000:8000 backend:latest
+```
+
 
 # Link to the documentation for the APIs:
 

@@ -1,2 +1,6 @@
 .venv
 .env
+
+# Ignore pytest cache files
+__pycache__/
+.pytest_cache/
