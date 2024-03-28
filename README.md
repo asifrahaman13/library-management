@@ -1,4 +1,4 @@
-# Evva Backend
+# Library management system
 
 ## How to run the code
 
